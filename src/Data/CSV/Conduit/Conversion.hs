@@ -855,11 +855,11 @@ instance GFromRecordProd f Record => GFromRecordProd (M1 i n f) Record where
 instance FromField a => GFromRecordProd (K1 i a) Record where
     gparseRecordProd n = (n + 1, \v -> K1 <$> parseField (V.unsafeIndex v n))
 
-#if MIN_VERSION_base(4,9,0)
-data Proxy (s :: Meta) (f :: * -> *) a = Proxy
-#else
+-- #if MIN_VERSION_base(4,9,0)
+-- data Proxy (s :: Meta) (f :: * -> *) a = Proxy
+-- #else
 data Proxy s (f :: * -> *) a = Proxy
-#endif
+-- #endif
 
 instance (FromField a, Selector s) => GFromRecordProd (M1 S s (K1 i a)) NamedRecord where
     gparseRecordProd n = (n + 1, \v -> (M1 . K1) <$> v .: name)
